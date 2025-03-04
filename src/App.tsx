@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import TodoList from './components/TodoList';
+import UserProfile from './components/UserProfile';
 
 // Intentional ESLint violations:
 // 1. Missing return type annotation
@@ -17,11 +19,34 @@ const App = () => {
   };
 
   return (
-    <div className='app'>
-      <h1>Todo List</h1>
-      <TodoList todos={todos} setTodos={setTodos} />
-      <button onClick={() => addTodo('New Todo')}>Add Todo</button>
-    </div>
+    <Router>
+      <div className='app'>
+        <nav>
+          <ul>
+            <li>
+              <Link to='/'>Todo List</Link>
+            </li>
+            <li>
+              <Link to='/profile'>User Profile</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
+                <h1>Todo List</h1>
+                <TodoList todos={todos} setTodos={setTodos} />
+                <button onClick={() => addTodo('New Todo')}>Add Todo</button>
+              </>
+            }
+          />
+          <Route path='/profile' element={<UserProfile />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
